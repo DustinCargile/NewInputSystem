@@ -1,1 +1,114 @@
-{}
+{
+    "name": "New Controls",
+    "maps": [
+        {
+            "name": "Player",
+            "id": "486f8754-ce71-456e-947a-3bc52d628d47",
+            "actions": [
+                {
+                    "name": "New action",
+                    "type": "Button",
+                    "id": "21d3ce4a-a29d-453e-b2e2-8f7c69fa4a0a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "9e035eba-5b88-4242-a97e-d3a49b1023fe",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "New action",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Driving",
+            "id": "49167609-0674-49b9-83ed-457efacd11c2",
+            "actions": [
+                {
+                    "name": "New action",
+                    "type": "Button",
+                    "id": "40004afe-5a3d-477c-89a2-614434402ebf",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "4b6c52fc-7a36-4b65-9fa0-fd54bb8ada0a",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "New action",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Flight",
+            "id": "ffce0840-b6a2-400c-b5ee-3fd9822c54c2",
+            "actions": [
+                {
+                    "name": "New action",
+                    "type": "Button",
+                    "id": "e0149978-a779-438f-9d9b-e298f9103058",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "e7b8292a-1790-45d1-a37c-0a7b7b48e143",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "New action",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Menu",
+            "id": "2f92004c-c9cf-4f21-9f0b-d01e85dc4584",
+            "actions": [
+                {
+                    "name": "New action",
+                    "type": "Button",
+                    "id": "58682514-fa0b-477f-8fd3-ebf490085a60",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "9e4f1101-4a5a-4004-a286-70aa4d4dde0e",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "New action",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
