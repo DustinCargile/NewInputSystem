@@ -22,6 +22,35 @@ public class PlayerInput : MonoBehaviour
         _input.Dog.Bark.performed += Bark_performed;
         _input.Dog.Bark.canceled += Bark_canceled;
         _input.Dog.Bark.started += Bark_started;
+
+        _input.Dog.Walk.performed += Walk_performed;
+
+        _input.Dog.Run.performed += Run_performed;
+        _input.Dog.Run.canceled += Run_canceled;
+
+        _input.Dog.Die.performed += Die_performed;
+    }
+
+    private void Die_performed(InputAction.CallbackContext context)
+    {
+        Debug.Log("Dog has died!");
+        _input.Dog.Disable();
+    }
+
+    private void Run_canceled(InputAction.CallbackContext context)
+    {
+        Debug.Log("Stopped Running");
+    }
+
+    private void Run_performed(InputAction.CallbackContext context)
+    {
+        Debug.Log("Running...");
+    }
+
+    private void Walk_performed(InputAction.CallbackContext context)
+    {
+        Debug.Log("Walk performed..." + context.ReadValue<Vector2>());
+        
     }
 
     private void Bark_started(InputAction.CallbackContext context)
