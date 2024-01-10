@@ -1,18 +1,48 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerInput : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+
+    //get a reference and start an instance of our input actions
+
+    //Enable Input Action Map (dog)
+
+    //Register perform functions
+
+    private PlayerInputActions _input;
+
+    private void Start()
     {
-        
+        _input = new PlayerInputActions();
+        _input.Dog.Enable();
+
+        _input.Dog.Bark.performed += Bark_performed;
+        _input.Dog.Bark.canceled += Bark_canceled;
+        _input.Dog.Bark.started += Bark_started;
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Bark_started(InputAction.CallbackContext context)
     {
-        
+        Debug.Log("Started Barking!");
+    }
+
+    private void Bark_canceled(InputAction.CallbackContext context)
+    {
+        Debug.Log("Done Barking!");
+    }
+
+    private void Bark_performed(InputAction.CallbackContext context)
+    {
+        Debug.Log("Bark!!!" + context);
+    }
+
+    private void OnDisable()
+    {
+        _input.Dog.Bark.performed -= Bark_performed;
+        _input.Dog.Bark.canceled -= Bark_canceled;
+        _input.Dog.Bark.started -= Bark_started;
     }
 }
