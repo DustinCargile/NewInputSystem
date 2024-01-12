@@ -16,70 +16,48 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
     ""maps"": [
         {
             ""name"": ""Player"",
-            ""id"": ""bd157f5a-e2e8-4965-bcc0-c5b66fc6186f"",
+            ""id"": ""3d422e7c-349a-4a6e-b084-b3b538ebc681"",
             ""actions"": [
                 {
-                    ""name"": ""Movement"",
+                    ""name"": ""Rotate"",
                     ""type"": ""Value"",
-                    ""id"": ""153f993b-d246-406f-bbe3-dda9550c0a8f"",
-                    ""expectedControlType"": ""Vector2"",
+                    ""id"": ""c3ffe965-c5d1-48b5-b9ac-97426070570a"",
+                    ""expectedControlType"": ""Axis"",
                     ""processors"": """",
                     ""interactions"": """"
                 }
             ],
             ""bindings"": [
                 {
-                    ""name"": ""WASD"",
-                    ""id"": ""49e97289-37f5-4b79-965d-524a34691be2"",
-                    ""path"": ""2DVector"",
+                    ""name"": ""A,D"",
+                    ""id"": ""6f6fbf2f-9563-4e44-8fc6-b05c19d1fa9f"",
+                    ""path"": ""1DAxis"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Movement"",
+                    ""action"": ""Rotate"",
                     ""isComposite"": true,
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""up"",
-                    ""id"": ""004e0829-ae94-459c-9c86-49b28d29f544"",
-                    ""path"": ""<Keyboard>/w"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""down"",
-                    ""id"": ""f6515b38-5644-4ec5-bd61-0368eb02d6e3"",
-                    ""path"": ""<Keyboard>/s"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""left"",
-                    ""id"": ""c02d3b0b-1033-4e0c-9e9a-186195281eef"",
+                    ""name"": ""positive"",
+                    ""id"": ""71d8b0f5-8c97-439c-a299-d03f17e53278"",
                     ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Movement"",
+                    ""action"": ""Rotate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""right"",
-                    ""id"": ""a9769dbe-1f4f-433c-bdac-a101a8112967"",
+                    ""name"": ""negative"",
+                    ""id"": ""a9d6f0f9-4c03-4cc1-aede-db62bb60609d"",
                     ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Movement"",
+                    ""action"": ""Rotate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 }
@@ -90,7 +68,7 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
 }");
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
-        m_Player_Movement = m_Player.FindAction("Movement", throwIfNotFound: true);
+        m_Player_Rotate = m_Player.FindAction("Rotate", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -140,12 +118,12 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
     // Player
     private readonly InputActionMap m_Player;
     private IPlayerActions m_PlayerActionsCallbackInterface;
-    private readonly InputAction m_Player_Movement;
+    private readonly InputAction m_Player_Rotate;
     public struct PlayerActions
     {
         private @PlayerInputActions m_Wrapper;
         public PlayerActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Movement => m_Wrapper.m_Player_Movement;
+        public InputAction @Rotate => m_Wrapper.m_Player_Rotate;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -155,22 +133,22 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
         {
             if (m_Wrapper.m_PlayerActionsCallbackInterface != null)
             {
-                @Movement.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMovement;
-                @Movement.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMovement;
-                @Movement.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMovement;
+                @Rotate.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRotate;
+                @Rotate.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRotate;
+                @Rotate.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnRotate;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
             {
-                @Movement.started += instance.OnMovement;
-                @Movement.performed += instance.OnMovement;
-                @Movement.canceled += instance.OnMovement;
+                @Rotate.started += instance.OnRotate;
+                @Rotate.performed += instance.OnRotate;
+                @Rotate.canceled += instance.OnRotate;
             }
         }
     }
     public PlayerActions @Player => new PlayerActions(this);
     public interface IPlayerActions
     {
-        void OnMovement(InputAction.CallbackContext context);
+        void OnRotate(InputAction.CallbackContext context);
     }
 }
