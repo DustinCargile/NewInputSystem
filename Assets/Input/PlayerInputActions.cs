@@ -25,6 +25,14 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""SwitchMaps"",
+                    ""type"": ""Button"",
+                    ""id"": ""9e032c90-4136-4110-bebf-4cfd8768a9ee"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -82,6 +90,88 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                     ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2ba41291-47c2-4c47-acd3-50841490ad77"",
+                    ""path"": ""<Keyboard>/t"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""SwitchMaps"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""Driving"",
+            ""id"": ""68e6cfea-b7f2-4f31-aaa2-b6119bf45893"",
+            ""actions"": [
+                {
+                    ""name"": ""Movement"",
+                    ""type"": ""Value"",
+                    ""id"": ""015251b0-8f53-4746-90eb-d5c8f4b16958"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": ""WASD"",
+                    ""id"": ""0c8de1b4-3248-4d97-85a8-0e66b9a7d0dd"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""fa999fb3-9f39-4867-a68c-5e18585b9235"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""4f691380-3b5d-4a83-90be-f1b54da0705c"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""a3e2c230-6899-4c02-afb0-6750a2b61417"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""a10f2fd6-bd8c-44f4-97d5-5cace88193fd"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -91,6 +181,10 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Movement = m_Player.FindAction("Movement", throwIfNotFound: true);
+        m_Player_SwitchMaps = m_Player.FindAction("SwitchMaps", throwIfNotFound: true);
+        // Driving
+        m_Driving = asset.FindActionMap("Driving", throwIfNotFound: true);
+        m_Driving_Movement = m_Driving.FindAction("Movement", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -141,11 +235,13 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
     private readonly InputActionMap m_Player;
     private IPlayerActions m_PlayerActionsCallbackInterface;
     private readonly InputAction m_Player_Movement;
+    private readonly InputAction m_Player_SwitchMaps;
     public struct PlayerActions
     {
         private @PlayerInputActions m_Wrapper;
         public PlayerActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movement => m_Wrapper.m_Player_Movement;
+        public InputAction @SwitchMaps => m_Wrapper.m_Player_SwitchMaps;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -158,8 +254,47 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                 @Movement.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMovement;
                 @Movement.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMovement;
                 @Movement.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMovement;
+                @SwitchMaps.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSwitchMaps;
+                @SwitchMaps.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSwitchMaps;
+                @SwitchMaps.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnSwitchMaps;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Movement.started += instance.OnMovement;
+                @Movement.performed += instance.OnMovement;
+                @Movement.canceled += instance.OnMovement;
+                @SwitchMaps.started += instance.OnSwitchMaps;
+                @SwitchMaps.performed += instance.OnSwitchMaps;
+                @SwitchMaps.canceled += instance.OnSwitchMaps;
+            }
+        }
+    }
+    public PlayerActions @Player => new PlayerActions(this);
+
+    // Driving
+    private readonly InputActionMap m_Driving;
+    private IDrivingActions m_DrivingActionsCallbackInterface;
+    private readonly InputAction m_Driving_Movement;
+    public struct DrivingActions
+    {
+        private @PlayerInputActions m_Wrapper;
+        public DrivingActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Movement => m_Wrapper.m_Driving_Movement;
+        public InputActionMap Get() { return m_Wrapper.m_Driving; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(DrivingActions set) { return set.Get(); }
+        public void SetCallbacks(IDrivingActions instance)
+        {
+            if (m_Wrapper.m_DrivingActionsCallbackInterface != null)
+            {
+                @Movement.started -= m_Wrapper.m_DrivingActionsCallbackInterface.OnMovement;
+                @Movement.performed -= m_Wrapper.m_DrivingActionsCallbackInterface.OnMovement;
+                @Movement.canceled -= m_Wrapper.m_DrivingActionsCallbackInterface.OnMovement;
+            }
+            m_Wrapper.m_DrivingActionsCallbackInterface = instance;
             if (instance != null)
             {
                 @Movement.started += instance.OnMovement;
@@ -168,8 +303,13 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
             }
         }
     }
-    public PlayerActions @Player => new PlayerActions(this);
+    public DrivingActions @Driving => new DrivingActions(this);
     public interface IPlayerActions
+    {
+        void OnMovement(InputAction.CallbackContext context);
+        void OnSwitchMaps(InputAction.CallbackContext context);
+    }
+    public interface IDrivingActions
     {
         void OnMovement(InputAction.CallbackContext context);
     }
