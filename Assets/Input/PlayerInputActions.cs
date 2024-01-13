@@ -16,72 +16,28 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
     ""maps"": [
         {
             ""name"": ""Player"",
-            ""id"": ""bd157f5a-e2e8-4965-bcc0-c5b66fc6186f"",
+            ""id"": ""0cc72f53-567a-4817-8995-8e70b564eada"",
             ""actions"": [
                 {
-                    ""name"": ""Movement"",
+                    ""name"": ""ShootBall"",
                     ""type"": ""Value"",
-                    ""id"": ""153f993b-d246-406f-bbe3-dda9550c0a8f"",
-                    ""expectedControlType"": ""Vector2"",
+                    ""id"": ""2efa5efc-833a-4d52-9f5d-d800b2b63795"",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": """"
+                    ""interactions"": ""Press(pressPoint=1,behavior=2)""
                 }
             ],
             ""bindings"": [
                 {
-                    ""name"": ""WASD"",
-                    ""id"": ""49e97289-37f5-4b79-965d-524a34691be2"",
-                    ""path"": ""2DVector"",
+                    ""name"": """",
+                    ""id"": ""3345a64b-a50a-40c4-aeee-332caa79ff42"",
+                    ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Movement"",
-                    ""isComposite"": true,
+                    ""action"": ""ShootBall"",
+                    ""isComposite"": false,
                     ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""up"",
-                    ""id"": ""004e0829-ae94-459c-9c86-49b28d29f544"",
-                    ""path"": ""<Keyboard>/w"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""down"",
-                    ""id"": ""f6515b38-5644-4ec5-bd61-0368eb02d6e3"",
-                    ""path"": ""<Keyboard>/s"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""left"",
-                    ""id"": ""c02d3b0b-1033-4e0c-9e9a-186195281eef"",
-                    ""path"": ""<Keyboard>/a"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""right"",
-                    ""id"": ""a9769dbe-1f4f-433c-bdac-a101a8112967"",
-                    ""path"": ""<Keyboard>/d"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Movement"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -90,7 +46,7 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
 }");
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
-        m_Player_Movement = m_Player.FindAction("Movement", throwIfNotFound: true);
+        m_Player_ShootBall = m_Player.FindAction("ShootBall", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -140,12 +96,12 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
     // Player
     private readonly InputActionMap m_Player;
     private IPlayerActions m_PlayerActionsCallbackInterface;
-    private readonly InputAction m_Player_Movement;
+    private readonly InputAction m_Player_ShootBall;
     public struct PlayerActions
     {
         private @PlayerInputActions m_Wrapper;
         public PlayerActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Movement => m_Wrapper.m_Player_Movement;
+        public InputAction @ShootBall => m_Wrapper.m_Player_ShootBall;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -155,22 +111,22 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
         {
             if (m_Wrapper.m_PlayerActionsCallbackInterface != null)
             {
-                @Movement.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMovement;
-                @Movement.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMovement;
-                @Movement.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMovement;
+                @ShootBall.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShootBall;
+                @ShootBall.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShootBall;
+                @ShootBall.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnShootBall;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
             {
-                @Movement.started += instance.OnMovement;
-                @Movement.performed += instance.OnMovement;
-                @Movement.canceled += instance.OnMovement;
+                @ShootBall.started += instance.OnShootBall;
+                @ShootBall.performed += instance.OnShootBall;
+                @ShootBall.canceled += instance.OnShootBall;
             }
         }
     }
     public PlayerActions @Player => new PlayerActions(this);
     public interface IPlayerActions
     {
-        void OnMovement(InputAction.CallbackContext context);
+        void OnShootBall(InputAction.CallbackContext context);
     }
 }
