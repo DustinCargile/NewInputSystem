@@ -8,8 +8,9 @@ public class Player : MonoBehaviour
     private PlayerInputActions _input;
 
     private Rigidbody _rb;
-    private bool _isPressed = false;
-    private float _force = 0;
+
+    private bool _hasJumped = false;
+
 
     private void Start()
     {
@@ -24,31 +25,40 @@ public class Player : MonoBehaviour
 
     private void ShootBall_canceled(InputAction.CallbackContext context)
     {
-        if (_rb != null)
+        var force = (float)context.duration;
+        if (_rb != null && !_hasJumped)
         {
 
-            _rb.AddForce(Vector3.up * _force, ForceMode.Impulse);
+            _rb.AddForce(Vector3.up * Mathf.Clamp(force * 10f, 0f, 10f) , ForceMode.Impulse);
+            
         }
-        _force = 0;
-        _isPressed = false;
+        _hasJumped=true;
     }
 
     private void ShootBall_performed(InputAction.CallbackContext context)
     {
-        _isPressed = true;
+        if (_rb != null && !_hasJumped)
+        {
 
+            _rb.AddForce(Vector3.up * 10f, ForceMode.Impulse);
+            
+        }
+        _hasJumped = true;
     }
 
     private void Update()
     {
 
-        if (_isPressed) 
-        {
-            _force += Time.deltaTime * 10f;
-        }
+       
 
     }
+    private void OnCollisionEnter(Collision collision)
+    {
+        
+        _hasJumped = false;  
+    }
 
+   
 
 
 

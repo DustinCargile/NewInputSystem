@@ -7,11 +7,11 @@
             "actions": [
                 {
                     "name": "ShootBall",
-                    "type": "Value",
+                    "type": "Button",
                     "id": "2efa5efc-833a-4d52-9f5d-d800b2b63795",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
+                    "interactions": "Hold(duration=1)"
                 }
             ],
             "bindings": [
@@ -19,7 +19,7 @@
                     "name": "",
                     "id": "3345a64b-a50a-40c4-aeee-332caa79ff42",
                     "path": "<Keyboard>/space",
-                    "interactions": "Press(behavior=2)",
+                    "interactions": "",
                     "processors": "",
                     "groups": "",
                     "action": "ShootBall",
