@@ -23,6 +23,8 @@ public class Player : MonoBehaviour
     private int _frameCount = 0;
     private bool _moving = false;
 
+    private int _chargingSpeed = 20;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -36,7 +38,7 @@ public class Player : MonoBehaviour
         _frameCount++;
         Debug.Log("Frame Count: " + _frameCount);
 
-        if (_frameCount % 20 == 0 && _moving) 
+        if (_frameCount % _chargingSpeed == 0 && _moving) 
         {
             ToggleComponent(_notificationText.gameObject);
             _frameCount = 0;
@@ -68,6 +70,7 @@ public class Player : MonoBehaviour
             _speed = 10f;
             _notificationText.text = "Charging...";
             _moving = true;
+            _chargingSpeed = 40;
         }
         else if(!Keyboard.current.spaceKey.isPressed && _progress > 0) 
         {
@@ -76,6 +79,7 @@ public class Player : MonoBehaviour
 
             _moving = true;
             _notificationText.text = "Losing Charge...";
+            _chargingSpeed = 20;
         }
         
     }
