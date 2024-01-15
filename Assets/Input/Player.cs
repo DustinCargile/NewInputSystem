@@ -2,33 +2,93 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using TMPro;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
-    private PlayerInputActions _input;
+    private float _progress = 0;
+    [SerializeField]
+    private TextMeshProUGUI _progressText;
+    [SerializeField]
+    private Slider _progressSlider;
 
+    [SerializeField]
+    private TextMeshProUGUI _notificationText;
+
+    private float _multiplier = -1;
+
+    private float _speed = 1f;
+
+    private int _frameCount = 0;
+    private bool _moving = false;
 
     // Start is called before the first frame update
     void Start()
     {
-        _input = new PlayerInputActions();
-
-        _input.Player.Enable();
         
     }
-
-    
 
     // Update is called once per frame
     void Update()
     {
-        CalculateMovement();   
+
+        _frameCount++;
+        Debug.Log("Frame Count: " + _frameCount);
+
+        if (_frameCount % 20 == 0 && _moving) 
+        {
+            ToggleComponent(_notificationText.gameObject);
+            _frameCount = 0;
+        }
+        if (!_moving) 
+        {
+            _notificationText.gameObject.SetActive(true);
+        }
+        _progress += Time.deltaTime * _multiplier * _speed;
+
+        if (_progress <= 0) 
+        {
+            _progress = 0;
+            _notificationText.text = "No Charge!";
+            _moving = false;
+        }
+        if (_progress >= 100) 
+        {
+            _notificationText.text = "Fully Charged!";
+            _progress = 100;
+            _moving = false;
+        }
+        _progressSlider.value = _progress;
+        _progressText.text = ((int)_progress).ToString();   
+
+        if (Keyboard.current.spaceKey.isPressed && _progress < 100)
+        {
+            _multiplier = 1;
+            _speed = 10f;
+            _notificationText.text = "Charging...";
+            _moving = true;
+        }
+        else if(!Keyboard.current.spaceKey.isPressed && _progress > 0) 
+        {
+            _multiplier = -1;
+            _speed = 2f;
+
+            _moving = true;
+            _notificationText.text = "Losing Charge...";
+        }
+        
     }
 
-    private void CalculateMovement() 
+    private void ToggleComponent(GameObject obj) 
     {
-        var move = _input.Player.Movement.ReadValue<Vector2>();
-
-        transform.Translate(new Vector3(move.x, 0, move.y) * Time.deltaTime * 5f);
+        if (obj.activeSelf)
+        {
+            obj.SetActive(false);
+        }
+        else 
+        {
+            obj.SetActive(true);
+        }
     }
 }
