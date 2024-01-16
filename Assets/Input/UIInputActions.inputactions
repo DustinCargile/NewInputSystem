@@ -1,0 +1,33 @@
+{
+    "name": "UIInputActions",
+    "maps": [
+        {
+            "name": "Player",
+            "id": "ccc1bfaa-4035-4e2d-9b74-422524921fbd",
+            "actions": [
+                {
+                    "name": "Charge",
+                    "type": "Button",
+                    "id": "31269fd5-7f12-4484-bd69-7d8f0a59ab35",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "9632bbd5-ae6f-4104-9154-058113147244",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Charge",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
