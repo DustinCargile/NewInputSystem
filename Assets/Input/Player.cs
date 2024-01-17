@@ -72,7 +72,7 @@ public class Player : MonoBehaviour
         CheckProgress();
 
         _progressSlider.value = _progress;
-        _progressText.text = ((int)_progress).ToString();   
+        _progressText.text = ((int)_progress).ToString() + "%";   
 
       
         
