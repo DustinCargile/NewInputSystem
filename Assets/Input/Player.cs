@@ -31,4 +31,10 @@ public class Player : MonoBehaviour
 
         transform.Translate(new Vector3(move.x, 0, move.y) * Time.deltaTime * 5f);
     }
+
+    private void OnBecameInvisible()
+    {
+        Destroy(this.gameObject);
+        Debug.Log("Object is Invisible!");
+    }
 }
